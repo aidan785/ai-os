@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIOS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 rx=%223%22 fill=%22%23161616%22/%3E%3Crect x=%225%22 y=%225%22 width=%226%22 height=%226%22 rx=%221%22 fill=%22%232f6fed%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif&display=swap">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/ext/fourcs.css">
+<link rel="stylesheet" href="/ext/routines.css">
+</head>
+<body>
+<div class="ground" aria-hidden="true"><i></i><i></i><i></i></div>
+<header class="bar">
+  <button class="brand" data-go="home" aria-label="Home"><span class="mark"></span><span>AIOS</span></button>
+  <nav class="crumbs" id="crumbs"></nav>
+  <div class="bar-right">
+    <span class="live" id="live-status"><span class="dot"></span><span id="live-text">Scanning</span></span>
+    <button class="kbd-btn" id="open-palette">Search <kbd>⌘K</kbd></button>
+    <button class="ghost" id="toggle-edit">Edit</button>
+    <button class="ghost" id="toggle-appearance">Appearance</button>
+    <span class="clock" id="clock"></span>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail"></nav>
+  <main class="main" id="main"></main>
+  <aside class="side" id="side"></aside>
+</div>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div class="drawer-title"><span id="drawer-kind" class="mono"></span><strong id="drawer-name"></strong><span id="drawer-path" class="mono muted"></span></div>
+    <div class="drawer-actions">
+      <button class="ghost" data-act="open">Open</button>
+      <button class="ghost" data-act="reveal">Reveal</button>
+      <button class="ghost" id="drawer-close">Close</button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+</div>
+
+<div class="palette" id="palette" aria-hidden="true">
+  <div class="palette-box">
+    <input id="palette-input" placeholder="Jump to a space, skill, file or command" autocomplete="off" spellcheck="false">
+    <div id="palette-list" class="palette-list"></div>
+  </div>
+</div>
+
+<div class="panel" id="appearance" aria-hidden="true"></div>
+<div class="toast" id="toast"></div>
+<script src="/app.js"></script>
+<script src="/brain.js"></script>
+<script src="/agents.js"></script>
+<script src="/ext/fourcs.js"></script>
+<script src="/ext/routines.js"></script>
+</body>
+</html>

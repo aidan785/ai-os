@@ -1,0 +1,159 @@
+{
+  "owner": "",
+  "title": "AIOS",
+  "hub": "assistant",
+  "roots": {
+    "WS": "./workspace",
+    "P": "~/Projects"
+  },
+  "deny": [
+    "\\.env",
+    "token",
+    "secret",
+    "credential",
+    "password",
+    "client_secret",
+    "storage_state",
+    "\\.pem$",
+    "\\.key$",
+    "id_rsa",
+    "invoice"
+  ],
+  "skillDirs": [
+    { "label": "Workspace", "path": "WS/.claude/skills" },
+    { "label": "Global", "path": "~/.claude/skills" }
+  ],
+  "groups": [
+    { "id": "projects", "name": "Projects", "note": "What you are building and shipping" },
+    { "id": "ops", "name": "Ops", "note": "The brain and the tools that run it" }
+  ],
+  "spaces": [
+    {
+      "id": "assistant",
+      "group": "ops",
+      "name": "Assistant",
+      "tagline": "The workspace Claude runs in: context, priorities, decisions and skills.",
+      "color": "#4a5871",
+      "status": "Active",
+      "sources": ["WS", "!WS/projects"],
+      "skills": ["morning-briefing", "weekly-review", "log-decision"]
+    },
+    {
+      "id": "website",
+      "group": "projects",
+      "name": "Website Relaunch",
+      "tagline": "New homepage, pricing page and case studies.",
+      "color": "#2f6fed",
+      "status": "In progress",
+      "sources": ["WS/projects/website-relaunch"],
+      "skills": []
+    },
+    {
+      "id": "newsletter",
+      "group": "projects",
+      "name": "Newsletter",
+      "tagline": "Weekly issue: one idea, one tool, one link.",
+      "color": "#0f9d8a",
+      "status": "Weekly",
+      "sources": ["WS/projects/newsletter"],
+      "skills": ["weekly-review"]
+    },
+    {
+      "id": "content",
+      "group": "projects",
+      "name": "Content Pipeline",
+      "tagline": "Ideas to scripts to published videos and posts.",
+      "color": "#d9662b",
+      "status": "Building",
+      "sources": ["WS/projects/content-pipeline"],
+      "skills": []
+    },
+    {
+      "id": "aios",
+      "group": "ops",
+      "name": "AIOS",
+      "tagline": "This interface: the design system, the screens and the plugins that feed them.",
+      "color": "#37bdf8",
+      "status": "Live",
+      "sources": ["./DESIGN.md", "./PRODUCT.md", "./design", "./public", "./plugins"],
+      "readme": "./README.md",
+      "skills": []
+    }
+  ],
+  "links": [
+    { "from": "newsletter", "to": "content", "label": "Each issue seeds next week's videos" },
+    { "from": "content", "to": "website", "label": "Best videos become case studies" },
+    { "from": "aios", "to": "assistant", "label": "Shows what the assistant knows and does" }
+  ],
+  "context": {
+    "files": [
+      { "path": "WS/CLAUDE.md", "label": "CLAUDE.md", "what": "Master prompt, loaded every session" },
+      { "path": "WS/context/me.md", "label": "About me", "what": "Role, responsibilities, timezone" },
+      { "path": "WS/context/work.md", "label": "About the business", "what": "What you sell, to whom, and how" },
+      { "path": "WS/context/team.md", "label": "Team", "what": "Who does what, and when to loop them in" },
+      { "path": "WS/context/current-priorities.md", "label": "Priorities", "what": "What matters this quarter" },
+      { "path": "WS/context/goals.md", "label": "Goals", "what": "Quarterly milestones" },
+      { "path": "WS/.claude/rules/communication-style.md", "label": "Voice", "what": "How you write, and the phrases to avoid" }
+    ],
+    "decisions": "WS/decisions/log.md"
+  },
+  "connections": [
+    { "id": "revenue", "name": "Revenue", "ask": "How did sales do this month?", "tools": [
+      { "name": "Stripe", "how": "MCP", "note": "payments and subscriptions", "wired": false }
+    ] },
+    { "id": "customers", "name": "Customers", "ask": "What are customers asking for?", "tools": [
+      { "name": "Support inbox", "how": "MCP", "note": "tickets and replies", "wired": false }
+    ] },
+    { "id": "calendar", "name": "Calendar", "ask": "What is on this week?", "tools": [
+      { "name": "Google Calendar", "how": "MCP", "note": "events and invites", "wired": false, "connector": "Calendar" }
+    ] },
+    { "id": "comms", "name": "Comms", "ask": "Who is waiting on me?", "tools": [
+      { "name": "Gmail", "how": "MCP", "note": "drafts only, never sends without a yes", "wired": false, "connector": "Gmail" },
+      { "name": "Slack", "how": "MCP", "note": "team channels", "wired": false, "connector": "Slack" }
+    ] },
+    { "id": "tasks", "name": "Tasks", "ask": "What is overdue?", "tools": [
+      { "name": "ClickUp", "how": "MCP", "note": "tasks and deadlines, source of truth", "wired": false, "connector": "ClickUp" }
+    ] },
+    { "id": "meetings", "name": "Meetings", "ask": "What did we decide on the last call?", "tools": [
+      { "name": "Call transcripts", "how": "MCP", "note": "notes and decisions from every call", "wired": false }
+    ] },
+    { "id": "knowledge", "name": "Knowledge", "ask": "Where is the latest version of the pitch deck?", "tools": [
+      { "name": "Project folders", "how": "Local", "note": "read-only scan every 10 seconds", "wired": true },
+      { "name": "Obsidian wiki", "how": "Local", "note": "linked notes, rebuilt every 5 minutes", "wired": true },
+      { "name": "Claude memory", "how": "Local", "note": "facts saved across sessions", "wired": true },
+      { "name": "Google Drive", "how": "MCP", "note": "shared docs and files", "wired": false, "connector": "Google Drive" }
+    ] }
+  ],
+  "routines": [
+    {
+      "id": "morning-briefing",
+      "name": "Morning briefing",
+      "cron": "30 7 * * 1-5",
+      "space": "assistant",
+      "skill": "/morning-briefing",
+      "what": "Reads priorities and open tasks, writes a five-minute briefing",
+      "log": "WS/logs/morning-briefing.log"
+    },
+    {
+      "id": "weekly-review",
+      "name": "Weekly review",
+      "cron": "0 16 * * 5",
+      "space": "assistant",
+      "skill": "/weekly-review",
+      "what": "Summarizes what shipped, what slipped and what is next",
+      "log": "WS/logs/weekly-review.log"
+    }
+  ],
+  "wiki": { "enabled": true, "path": "./wiki" },
+  "agentRuns": {
+    "enabled": false,
+    "prioritiesFile": "context/current-priorities.md"
+  },
+  "clickup": {
+    "enabled": false,
+    "toolPrefix": "mcp__clickup__",
+    "workspaceId": "",
+    "listId": "",
+    "userId": ""
+  }
+}

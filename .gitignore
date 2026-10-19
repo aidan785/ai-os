@@ -1,0 +1,15 @@
+# Your config and everything AIOS writes stay on your machine
+aios.config.json
+data/*
+!data/.gitkeep
+wiki/
+
+# Keys and secrets
+.env
+.env.*
+
+# OS and editor
+.DS_Store
+node_modules/
+*.log
+!workspace/logs/README.md

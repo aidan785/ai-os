@@ -1,0 +1,12 @@
+{
+  "name": "ai-os",
+  "version": "1.0.0",
+  "description": "A read-only operating system view over your projects, skills, Claude Code agents and routines.",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}
